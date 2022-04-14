@@ -1,23 +1,20 @@
 {
-    "Julien":[
+    "Julien":
             {
                 "name":"Julien",
                 "level":"120",
                 "score":"333"
-            }
-    ],
-    "Maelle":[
+            },
+    "Maelle":
             {
                 "name":"Maelle",
                 "level":"265",
                 "score":"876"
-            }
-    ],
-    "Melody":[
+            },
+    "Melody":
             {
                 "name":"Melody",
                 "level":"0",
                 "score":"0"
             }
-    ]
 }
