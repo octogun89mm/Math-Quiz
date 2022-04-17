@@ -1,4 +1,4 @@
-import json
+import pickle
 
 class Player:
     
@@ -10,49 +10,59 @@ class Player:
 
     def getPlayerData(self):
         #Return a dictionary with player's data
-        with open("players.json", "r") as file:
-            data = json.load(file)
-        user_dict_init = data[self.name]
-        return user_dict_init
+        with open("players.txt", "rb") as file:
+            data = pickle.load(file)
+        if self.name in data:
+            return data[self.name]
+        else:
+            raise "Player isn't in the players.txt file, please create a player first."
 
     def getPlayerScore(self):
-        #Return a string containing player's score
+        #Return a integer containing player's score
         player_data = self.getPlayerData()
         return player_data["score"]
 
     def getPlayerLevel(self):
-        #Return a string containing player's level
+        #Return a integer containing player's level
         player_data = self.getPlayerData()
         return player_data["level"]
 
     def isNameinDatabase(self):
         #Check if player's name is already in the database
-        with open("players.json", "r") as file:
-            data = json.load(file)
+        with open("players.txt", "rb") as file:
+            data = pickle.load(file)
         if self.name in data:
             return True
         else:
             return False
 
-    def setPlayerName(self, name):
-        pass
-        #Take the name of a new player as an argument
-        #Builds a dictionary
-        #Check if name is already in the players.json file
-        #Write it in the players.json file
-        #dict_data_player = {
-        #    "name" : self.name,
-        #    "level" : self.level,
-        #    "score" : self.score
-        #    }
-        #with open("players.json, "w"):
-        #    names = x  
+    def setPlayerData(self):
+        """- Builds a dictionary
+           - Check if name is already in the players.txt file
+           - Write it in the players.txt file"""
+        isNameinDatabase = self.isNameinDatabase()
+        if isNameinDatabase == True:
+            return "Name is already in database, can't initiate new player data in players.txt file."
+        elif isNameinDatabase == False:
+            dict_data_player = {"level" : self.level, "score" : self.score} #Initiate a dictionnary with new player data
+            with open("players.txt", "rb") as file: #Open players.txt to later append new players data
+                data = pickle.load(file)
+            data[self.name] = dict_data_player
+            with open("players.txt", "wb") as file:
+                pickle.dump(data, file)
 
     def setPlayerScore(self, score_added):
         #Sets the player score (With this function the score can only be added)
         pass
 
-###Test###
-p1 = Player("Melody")
+    def deletePlayer(self):
+        with open("players.txt", "rb") as file:
+            data = pickle.load(file)
+        del data[self.name]
+        with open("players.txt", "wb") as file:
+            pickle.dump(data, file)
 
-print(p1.isNameinDatabase())
+###Test###
+p1 = Player("Robert")
+
+print(p1.deletePlayer())

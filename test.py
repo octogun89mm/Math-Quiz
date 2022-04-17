@@ -1,4 +1,6 @@
-x = 2
-new_dict = {"number" : x}
+import pickle
 
-print(new_dict)
+players = {"Julien" : {"level" : 0, "score" : 0}, "Maelle" : {"level" : 0, "score" : 0}, "Melody" : {"level" : 0, "score" : 0}}
+
+with open("players.txt", "wb") as file:
+    data = pickle.dump(players, file)
